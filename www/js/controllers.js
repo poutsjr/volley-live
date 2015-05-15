@@ -1,16 +1,12 @@
+'user strict';
+
 angular.module('starter.controllers', [])
 
-    .controller('ResultsCtrl', function($scope, ResultSrv, $ionicPopup, $timeout){
-        'user strict';
-
-        $scope.messages = ResultSrv.getMessages();
-
-
-
+    .controller('ResultsCtrl', function($scope, results){
+        $scope.results = results;
     })
-    .controller('ResultDetailCtrl', function($scope, $stateParams, ResultSrv) {
-        $scope.result = ResultSrv.getMessage($stateParams.match);
-        console.log($scope.result);
+    .controller('ResultDetailCtrl', function($scope, result) {
+        $scope.result = result;
     })
 
     .controller('TeamsCtrl', function($scope) {

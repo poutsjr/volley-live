@@ -36,21 +36,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
   // setup an abstract state for the tabs directive
     .state('tab', {
-    url: "/tab",
-    abstract: true,
-    templateUrl: "templates/tabs.html"
-  })
+        url: "/tab",
+        abstract: true,
+        templateUrl: "templates/tabs.html"
+      })
 
   // Each tab has its own nav history stack:
 
   .state('tab.results', {
-    url: '/results',
-    views: {
-      'tab-results': {
-        templateUrl: 'templates/tab-results.html',
-        controller: 'ResultsCtrl'
-      }
-    }
+        url: '/results',
+        views: {
+          'tab-results': {
+            templateUrl: 'templates/tab-results.html',
+            controller: 'ResultsCtrl'
+          }
+        },
+        resolve: {
+          results: function (ResultSrv) {
+              return ResultSrv.getMessages();
+          }
+        }
   })
   .state('tab.result-detail', {
       url: '/results/:match',
@@ -58,6 +63,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
           'tab-results': {
               templateUrl: 'templates/result-detail.html',
               controller: 'ResultDetailCtrl'
+          }
+      },
+      resolve: {
+          result: function ($stateParams, ResultSrv) {
+              return ResultSrv.getMessage($stateParams.match);
           }
       }
   })

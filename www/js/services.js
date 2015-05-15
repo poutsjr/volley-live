@@ -1,28 +1,27 @@
 angular.module('starter.services', [])
 
-.service('ResultSrv', function($firebaseArray, Config) {
+.service('ResultSrv', function($http, Config) {
     'use strict';
 
-    var firebaseRef = new Firebase(Config.firebaseUrl);
-    var service = {
-        getMessage: getMessage,
-        getMessages: getMessages,
-        sendMessage: sendMessage
-    };
+    return {
 
-    function getMessage(match) {
-        return $firebaseArray(firebaseRef).$getRecord(match);
+        getMessage: function (match) {
+            return $http.get(Config.firebaseUrl + match + "/.json").then(function(response){
+                //console.log(response.data);
+                return response.data;
+            });
+            //var message = $firebaseArray(new Firebase(Config.firebaseUrl + match));
+            //console.log(message.name());
+            //return message;
+        },
+
+        getMessages: function () {
+            return $http.get(Config.firebaseUrl + "/.json").then(function(response){
+                //console.log(response.data);
+                return response.data;
+            });
+        }
     }
-
-    function getMessages() {
-        return $firebaseArray(firebaseRef);
-    };
-
-    function sendMessage(message, messages) {
-        messages.$add(message);
-    };
-
-    return service;
 })
 
 .factory('Chats', function() {
